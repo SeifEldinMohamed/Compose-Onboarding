@@ -13,7 +13,7 @@ import com.seif.composeonboarding.screen.WelcomeScreen
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    startDestination: String = Screen.Welcome.route
+    startDestination: String
 ) {
     NavHost(
         navController = navController,
