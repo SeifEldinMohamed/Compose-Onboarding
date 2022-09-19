@@ -17,13 +17,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.accompanist.pager.*
+import com.seif.composeonboarding.navigation.Screen
 import com.seif.composeonboarding.util.OnBoardingPage
 
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navController: NavController
+) {
+    val pages = listOf<OnBoardingPage>(
+        OnBoardingPage.First,
+        OnBoardingPage.Second,
+        OnBoardingPage.Third
+    )
+
+    val pagerState = rememberPagerState()
+    
+    Column(modifier = Modifier.fillMaxSize()) {
+        HorizontalPager(
+            count = 3,
+            state = pagerState,
+            modifier = Modifier.weight(10f)
+        ) { position ->
+            PagerScreen(onBoardingPage = pages[position])
+        }
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier.align(Alignment.CenterHorizontally).weight(1.5f)
+        )
+        FinishButton(modifier = Modifier.weight(1.5f), pagerState = pagerState) {
+            navController.popBackStack()
+            navController.navigate(Screen.Home.route)
+        }
+    }
+    
 
 }
 
@@ -38,7 +68,7 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
-                .fillMaxHeight(0.7f),
+                .fillMaxHeight(0.62f),
             painter = painterResource(id = onBoardingPage.image),
             contentDescription = "Pager Image"
         )
